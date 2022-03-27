@@ -17,3 +17,10 @@ Solutions:
   
   -Why we don't have in app media player on windows?
   Because there is no media player flutter package which you can handle embedded subtitles and audio.
+
+# Missing features
+-Favorite system
+-A good video player control ui for ios and android
+-Localizations
+-If VLC is not installed on Windows, show error dialog.
+-Custom VLC folder selection, if VLC is folder missing on Windows.(Curently app uses default Program files folder)
