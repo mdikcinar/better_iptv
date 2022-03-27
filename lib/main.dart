@@ -10,12 +10,14 @@ void main() async {
   await GetStorage.init();
   return runApp(
     GetMaterialApp(
-      title: "Better IpTV",
-      opaqueRoute: Get.isOpaqueRouteDefault,
-      popGesture: Get.isPopGestureEnable,
-      debugShowCheckedModeBanner: false,
-      getPages: AppPages.pages,
-      initialRoute: AppRoutes.onBoard,
-    ),
+        title: "Better IpTV",
+        opaqueRoute: Get.isOpaqueRouteDefault,
+        popGesture: Get.isPopGestureEnable,
+        debugShowCheckedModeBanner: false,
+        getPages: AppPages.pages,
+        initialRoute: AppRoutes.onBoard,
+        theme: ThemeData(
+          fontFamily: 'Ubuntu',
+        )),
   );
 }

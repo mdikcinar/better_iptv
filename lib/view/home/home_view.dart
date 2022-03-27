@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,10 +20,10 @@ class HomeView extends GetView<HomeController> {
           'Better IpTV : ' + (controller.playlist?.name ?? 'Playlist'),
           textColor: Colors.white,
         ),
-        centerTitle: true,
+        centerTitle: Platform.isWindows ? true : false,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: Utils.normalPadding),
+            padding: EdgeInsets.only(right: Platform.isWindows ? Utils.normalPadding : 0),
             child: CustomInkwell(
               padding: EdgeInsets.all(Utils.normalPadding),
               onTap: () {
@@ -29,9 +31,15 @@ class HomeView extends GetView<HomeController> {
               },
               child: Row(
                 children: [
-                  CustomText.high('Refresh playlist', textColor: getReversedTextColor),
-                  SizedBox(width: Utils.lowPadding),
-                  Icon(Icons.refresh_rounded, size: Utils.highIconSize),
+                  Text(
+                    'Refresh playlist',
+                    style: TextStyle(
+                      color: getReversedTextColor,
+                      fontSize: Platform.isWindows ? Utils.highTextSize : Utils.lowTextSize,
+                    ),
+                  ),
+                  SizedBox(width: Platform.isWindows ? Utils.lowPadding : Utils.extraLowPadding),
+                  Icon(Icons.refresh_rounded, size: Platform.isWindows ? Utils.highIconSize : Utils.normalIconSize),
                 ],
               ),
             ),

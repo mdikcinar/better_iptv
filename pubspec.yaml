@@ -40,7 +40,10 @@ dependencies:
   http: ^0.13.4
 
   #3rt party
-  m3u_nullsafe: ^1.0.4
+  m3u: 
+    git:
+      url: https://github.com/bmoliveira/m3u-parse-utils
+      ref: master
   flutter_vlc_player: ^7.1.0 #except windows
   process_run: ^0.12.3+2
   fluttertoast: ^8.0.9 #except windows
@@ -88,10 +91,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: assets/Ubuntu-Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

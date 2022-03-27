@@ -29,7 +29,10 @@ class ContentCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Utils.lowRadius),
                   child: CachedNetworkImage(
                     imageUrl: imgUrl!,
-                    placeholder: (context, val) => const Center(child: CircularProgressIndicator()),
+                    placeholder: (context, val) => Padding(
+                      padding: EdgeInsets.all(Utils.normalPadding),
+                      child: const CircularProgressIndicator(),
+                    ),
                     errorWidget: (context, imgUrl, err) => Padding(
                       padding: EdgeInsets.only(top: Utils.highPadding),
                       child: Icon(
@@ -60,7 +63,8 @@ class ContentCard extends StatelessWidget {
                   Flexible(
                     child: AutoSizeText(
                       title,
-                      minFontSize: Utils.lowTextSize.roundToDouble(),
+                      minFontSize:
+                          Platform.isWindows ? Utils.lowTextSize.roundToDouble() : Utils.extraLowTextSize.roundToDouble(),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                       textAlign: TextAlign.center,

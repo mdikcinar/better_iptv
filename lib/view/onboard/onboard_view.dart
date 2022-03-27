@@ -62,7 +62,13 @@ class OnBoardView extends GetView<OnBoardController> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       CustomText((playlist.name ?? '').toUpperCase()),
-                                      CustomText(playlist.url),
+                                      SizedBox(height: Utils.extraLowPadding),
+                                      Text(
+                                        playlist.url,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: Utils.lowTextSize, color: getTextColor.withOpacity(0.6)),
+                                      ),
                                     ],
                                   ),
                                 ),

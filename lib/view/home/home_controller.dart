@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:m3u_nullsafe/m3u_nullsafe.dart';
+import 'package:m3u/m3u.dart';
 
 import '../../core/storage/custom_storage_service.dart';
 import '../../models/group_model.dart';
@@ -53,6 +53,7 @@ class HomeController extends GetxController {
       final result = await _homeService.getPlaylist(playlist!.url);
       if (result != null) {
         final _convertedData = await _convertPlaylistData(result);
+
         allContent = _convertedData;
         await _storageService.write(playlist!.id, allContent);
       }
@@ -69,6 +70,7 @@ class HomeController extends GetxController {
 
   Future<List<ChannelGroup>> _convertPlaylistData(String playlist) async {
     final m3uGenericEntyList = await M3uParser.parse(playlist);
+
     List<ChannelGroup> channelGroupList = [];
     for (var item in m3uGenericEntyList) {
       final tvSerieTitle = item.title.split(RegExp(r'S[0-9][0-9]')).first;
