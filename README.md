@@ -1,16 +1,19 @@
-# betteriptv
+Flutter based, ip tv playlist viewer. Currently works on Android, Ios, Windows.
 
-A new Flutter project.
+# What is the main problem which is solved with this app
 
-## Getting Started
+1- On any platform there is no playerlist organizer if playlist comes without folder stracture. But here we are creating a folder stracture by checking the content name. Is the content name contains for example S01 E01 keys? if it has these words we are creating a folder stracture and placing the cotent under there.
 
-This project is a starting point for a Flutter application.
+2- On windows i have tried to use many apps and i couldn't find any good app which has a good media player and folder stracture.
+Vlc is a good solution, but if playlist too big, vlc becomes very slow. Sometimes it takes 5 minute to open a playlist and also vlc does not have a folder stracture.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Solutions: 
+# Android and IOS
+  We are handling the playlist with Better ipTV and playing the media inside the app.
+  
+# Windows
+  We are handling the playlist with Better ipTV, and when you select what you want to watch we are starting the VLC with that content's url.
+  So on windows VLC is required and it must be already installed.
+  
+  -Why we don't have in app media player on windows?
+  Because there is no media player flutter package which you can handle embedded subtitles and audio.
