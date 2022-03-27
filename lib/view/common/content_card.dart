@@ -60,11 +60,11 @@ class ContentCard extends StatelessWidget {
                   Flexible(
                     child: AutoSizeText(
                       title,
-                      minFontSize: Utils.extraLowTextSize.roundToDouble(),
+                      minFontSize: Utils.lowTextSize.roundToDouble(),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: Utils.normalTextSize),
+                      style: TextStyle(fontSize: Utils.highTextSize),
                     ),
                   ),
                   if (contentCount != null) CustomText(contentCount.toString()),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/routes/app_routes.dart';
+import '../../core/theme/colors.dart';
 import '../../core/utils/utils.dart';
 import '../../core/utils/widgets/custom_elevated_button.dart';
 import '../../core/utils/widgets/custom_inkwell.dart';
@@ -51,9 +52,45 @@ class OnBoardView extends GetView<OnBoardController> {
                           );
                         },
                         child: Card(
-                          child: ListTile(
-                            title: CustomText(playlist.name ?? ''),
-                            subtitle: CustomText(playlist.url),
+                          child: Padding(
+                            padding: EdgeInsets.all(Utils.normalPadding),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText((playlist.name ?? '').toUpperCase()),
+                                      CustomText(playlist.url),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    CustomInkwell(
+                                      padding: EdgeInsets.all(Utils.lowPadding),
+                                      onTap: () {
+                                        Get.defaultDialog(
+                                          title: 'Delete playlist',
+                                          middleText: 'Do you want to delete ${playlist.name}?',
+                                          confirmTextColor: getReversedTextColor,
+                                          onCancel: () => Get.back(),
+                                          onConfirm: () {
+                                            controller.deletePlaylist(playlist.id);
+                                            Get.back();
+                                          },
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                        size: Utils.highIconSize,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

@@ -41,4 +41,10 @@ class OnBoardController extends GetxController {
       _storageService.write(StorageKeys.allPlaylist.toString(), allPlaylists);
     }
   }
+
+  Future<void> deletePlaylist(String playlistID) async {
+    allPlaylists?.removeWhere((element) => element.id == playlistID);
+    _storageService.remove(playlistID);
+    await _storageService.write(StorageKeys.allPlaylist.toString(), allPlaylists);
+  }
 }
