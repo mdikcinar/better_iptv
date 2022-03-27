@@ -22,5 +22,6 @@ Solutions:
 - [ ] Favorite system
 - [ ] A good video player control ui for ios and android
 - [ ] Localizations
+- [ ] Theme management
 - [ ] If VLC is not installed on Windows, show error dialog.
 - [ ] Custom VLC folder selection, if VLC is folder missing on Windows.(Curently app uses default Program files folder)
