@@ -20,6 +20,7 @@ Solutions:
 
 # Missing features
 - [ ] Favorite system
+- [ ] Search system
 - [ ] A good video player control ui for ios and android
 - [ ] Localizations
 - [ ] Theme management
