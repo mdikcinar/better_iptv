@@ -64,6 +64,7 @@ dev_dependencies:
   json_serializable: ^6.1.5
   json_annotation: ^4.4.0
   build_runner: ^2.1.8
+  msix: ^3.4.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -105,3 +106,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+msix_config:
+  display_name: Better IPTV Player
+  publisher_display_name: Betterlifewithapps
+  identity_name: 13356Betterlifewithapps.BetterIPTVplayer
+  msix_version: 1.0.0.0
+  logo_path: assets\app_icon.png
+  capabilities: internetClient
+  publisher: CN=9238C68C-3C4A-4820-A5BF-4587B80F4D5D
