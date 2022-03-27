@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
                     ? validator
                     : (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Boş bırakılamaz';
+                          return 'Can\'t be empty';
                         }
                         return validator != null ? validator!(value) : null;
                       },

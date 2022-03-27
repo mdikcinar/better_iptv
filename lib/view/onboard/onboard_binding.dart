@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
+import '../../core/storage/custom_storage_service.dart';
 import 'onboard_controller.dart';
-import 'onboard_service.dart';
 
 class OnBoardBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => OnBoardService());
     Get.lazyPut(() => OnBoardController());
+    Get.lazyPut(() => CustomStorageService());
   }
 }

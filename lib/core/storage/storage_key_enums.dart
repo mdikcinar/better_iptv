@@ -1,3 +1,3 @@
 enum StorageKeys {
-  allContent,
+  allPlaylist,
 }
