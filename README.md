@@ -1,5 +1,7 @@
 Flutter based, ip tv playlist viewer. Currently works on Android, Ios, Windows.
 
+Windows store: https://www.microsoft.com/en-us/p/better-iptv-player/9n5x0kt56q9g?activetab=pivot:overviewtab
+
 # What is the main problem which is solved with this app
 
 1- On any platform there is no playerlist organizer if playlist comes without folder stracture. But here we are creating a folder stracture by checking the content name. Is the content name contains for example S01 E01 keys? if it has these words we are creating a folder stracture and placing the cotent under there.
