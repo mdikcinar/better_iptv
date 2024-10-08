@@ -1,23 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
-import 'core/routes/app_pages.dart';
-import 'core/routes/app_routes.dart';
+import 'package:betteriptv/di_manager.dart';
+import 'package:betteriptv/routes/app_router.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+  DiManager.configureDependencies();
   return runApp(
-    GetMaterialApp(
-        title: "Better IpTV",
-        opaqueRoute: Get.isOpaqueRouteDefault,
-        popGesture: Get.isPopGestureEnable,
-        debugShowCheckedModeBanner: false,
-        getPages: AppPages.pages,
-        initialRoute: AppRoutes.onBoard,
-        theme: ThemeData(
-          fontFamily: 'Ubuntu',
-        )),
+    CupertinoApp.router(
+      title: "Better IpTV",
+      routerConfig: AppRouter.router,
+    ),
   );
 }
