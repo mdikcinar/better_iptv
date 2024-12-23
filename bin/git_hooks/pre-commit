@@ -11,7 +11,7 @@ branch=$(git branch --show-current)
 
 # Prevent direct commits to protected branches
 if [[ " ${protected_branches[@]} " =~ " $branch " ]]; then
-    errorMsg="pre-commit: You are not allowed to commit directly to the '$branch' branch."
+    errorMsg="${PURPLE}pre-commit: ${YELLOW}You are not allowed to commit directly to the ${GREEN}'$branch'${YELLOW} branch.${RESET}"
     print_error_message "$errorMsg"
     echo "${PURPLE}pre-commit: ${YELLOW}Please create a new branch and submit a pull request instead.${RESET}"
     exit 1
