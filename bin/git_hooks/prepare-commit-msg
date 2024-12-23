@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Load shared configurations and utility functions
+source bin/scripts/common.sh
+
+# Arguments passed to the hook
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# Extract the current branch name
+#!/bin/bash
+branch_name=`git rev-parse --abbrev-ref HEAD`
+commit_msg=$(cat $COMMIT_MSG_FILE)
+
+# Regex to ensure commit message starts with a valid prefix
+regex_commit_start='^(feat|refactor|fix|docs|release|chore|test|perf|revert|ci|build|Merge): .*'
+if [[ ! $commit_msg =~ $regex_commit_start ]]; then
+  echo "${PURPLE}prepare-commit-msg:${YELLOW} Current commit message: ${GREEN}$commit_msg${RESET}"
+  echo "${PURPLE}prepare-commit-msg:${YELLOW} Your commit message must start with one of these prefixes: ${GREEN}'feat:' 'refactor:' 'fix:' 'docs:' 'release:' 'chore:' 'test:' 'perf:' 'revert:' 'ci:' 'build:'${RESET}"
+  exit 1
+fi
+
+# Regex to check if commit message ends with an issue key (e.g., TEAM-123)
+regex_commit_end='^.*\(${team_prefix}-[0-9]+\)$'
+if [[ ! $commit_msg =~ $regex_commit_end ]]; then
+    # Extract the issue key from the branch name (e.g., feature/TEAM-123)
+    issue=$(echo "$branch_name" | awk -F/ '{print $2}')
+    # Append the issue key to the commit message if it exists
+    if [ -n "$issue" ]; then
+        echo "$commit_msg ($issue)" > $COMMIT_MSG_FILE
+    else
+        echo "${RED}prepare-commit-msg:${YELLOW} Your commit message must end with an issue key in parentheses, e.g., ${GREEN}'feat: example commit (${team_prefix}-123)'${RESET}"
+        exit 1
+    fi
+fi
+
+# Explanation:
+# 1. `regex_commit_start`: Ensures the commit message starts with a standard type.
+#    Example valid message: "feat: Add login feature"
+# 2. `regex_commit_end`: Ensures the commit message ends with a JIRA issue key.
+#    Example valid message: "feat: Add login feature (${teams_prefix}-123)"
+# 3. If the issue key is missing, it tries to extract it from the branch name (e.g., feature/${teams_prefix}-123).
+# 4. Automatically appends the extracted issue key if valid.
+
+# Notes:
+# - Update `teams_prefix` in `common.sh` to match your team's JIRA prefix.
+# - Ensure branch names follow the patterns like `feature/<issue-key>`, `bugfix/<issue-key>` for automatic detection.
