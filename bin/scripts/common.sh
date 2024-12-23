@@ -25,21 +25,24 @@ team_prefix='TEAM'  # Replace TEAM with your team's specific prefix, such as ABC
 # Function: Ask user if they want to continue despite errors
 # Provides a prompt to continue or abort depending on the environment
 askBeforeContinue() {
+   errorMsg="$1"
    if [[ "$SHLVL" -eq 1 ]]; then
+       clean_message=$(remove_ansi_codes "$errorMsg")
        # Running in VSCode terminal (macOS specific example with AppleScript)
-       result=$(osascript -e "tell application \"System Events\" to display dialog \"$errorMsg\n$question\" buttons {\"No\", \"Yes\"} default button \"Yes\" with icon caution with title \"Git Hooks\"" button returned of result)
+       result=$(osascript -e "tell application \"System Events\" to display dialog \"$clean_message\n$question\" buttons {\"No\", \"Yes\"} default button \"Yes\" with icon caution with title \"Git Hooks\"" button returned of result)
 
        if [[ $result != 'button returned:Yes' ]]; then
-           echo "${RED}Push aborted!! Because of errors${RESET}"
+           print_error_message "${RED}Push aborted!! Because of errors${RESET}"
            exit 1
        fi
    else
        # Running in a system terminal
+       echo "$errorMsg"
        read -e -p "${PURPLE}pre-commit: ${YELLOW}Do you want to continue with errors? [y/N] ${RESET}" answer < /dev/tty
        case ${answer:0:1} in
-           y|Y ) 
+           y|Y )
                echo "${PURPLE}pre-commit:${RESET} ${GREEN}Continuing...${RESET}";;
-           * ) 
+           * )
                echo "${PURPLE}pre-commit:${RESET} ${RED}Aborting push!${RESET}"
                exit 1;;
        esac
@@ -55,12 +58,12 @@ remove_ansi_codes() {
 
 # Function to print error message based on SHLVL
 print_error_message() {
-    error_message="$1"
+    errorMsg="$1"
     if [[ "$SHLVL" -eq 1 ]]; then
-        clean_message=$(remove_ansi_codes "$error_message")
+        clean_message=$(remove_ansi_codes "$errorMsg")
         echo "$clean_message"
     else
-        echo "$error_message"
+        echo "$errorMsg"
     fi
 }
 

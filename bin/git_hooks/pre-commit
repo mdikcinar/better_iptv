@@ -12,13 +12,8 @@ branch=$(git branch --show-current)
 # Prevent direct commits to protected branches
 if [[ " ${protected_branches[@]} " =~ " $branch " ]]; then
     errorMsg="pre-commit: You are not allowed to commit directly to the '$branch' branch."
-    if [[ "$SHLVL" -eq 1 ]]; then
-        clean_errorMsg=$(remove_ansi_codes "$errorMsg")
-        echo "$clean_errorMsg"
-    else
-        echo "${PURPLE}pre-commit: ${YELLOW}ERROR:${RESET} $errorMsg"
-        echo "${PURPLE}pre-commit: ${YELLOW}Please create a new branch and submit a pull request instead.${RESET}"
-    fi
+    print_error_message "$errorMsg"
+    echo "${PURPLE}pre-commit: ${YELLOW}Please create a new branch and submit a pull request instead.${RESET}"
     exit 1
 fi
 
@@ -31,12 +26,6 @@ regex_branch_name="^($(IFS=\|; echo "${allowed_branch_types[*]}"))/${team_prefix
 
 if ! [[ $branch_name =~ $regex_branch_name ]]; then
     errorMsg="${PURPLE}pre-commit: ${GREEN}$branch_name ${YELLOW}branch name must start with one of ${GREEN}'$(IFS=,; echo "${allowed_branch_types[*]}")/${team_prefix}-', followed by one or more digits.${RESET}"
-    if [[ "$SHLVL" -eq 1 ]]; then
-        clean_errorMsg=$(remove_ansi_codes "$errorMsg")
-        echo "$clean_errorMsg"
-    else
-        echo "$errorMsg"
-    fi
-    askBeforeContinue
+    askBeforeContinue "$errorMsg"
 fi
 
