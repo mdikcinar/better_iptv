@@ -38,7 +38,7 @@ askBeforeContinue() {
    else
        # Running in a system terminal
        echo "$errorMsg"
-       read -e -p "${PURPLE}pre-commit: ${YELLOW}Do you want to continue with errors? [y/N] ${RESET}" answer < /dev/tty
+       read -e -p "${PURPLE}pre-commit: ${YELLOW}$question [y/N] ${RESET}" answer < /dev/tty
        case ${answer:0:1} in
            y|Y )
                echo "${PURPLE}pre-commit:${RESET} ${GREEN}Continuing...${RESET}";;

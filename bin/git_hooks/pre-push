@@ -4,17 +4,27 @@
 source bin/scripts/common.sh
 
 # Prompt user to decide if analyzer and tests should run
-askBeforeRunAnalysesAndTest() {
-    local message="Do you want to run analyzer and tests?"
-    local title="Git Hooks"
-    local button_yes="Yes"
-    local button_no="No"
+askBeforeRunAnalysesAndTest() 
+{
+   if [[ "$SHLVL" -eq 1 ]]; then
+    # Running in VSCODE terminal
+    result=$(osascript -e 'tell application "System Events" to display dialog "Do you want to run analyzer and tests?" buttons {"No", "Yes"} default button "Yes" with icon caution with title "Git Hooks"' button returned of result)
 
-    # Use the generic askBeforeContinue function from common.sh
-    if ! askBeforeContinue "$message" "$title" "$button_yes" "$button_no"; then
-        echo "${PURPLE}pre-push:${RESET} ${GREEN}Skipping analyzer and tests as per user choice.${RESET}"
-        exit 0
+    if [[ $result == 'button returned:Yes' ]]; then
+      echo "User clicked Yes"
+    else
+      # User clicked No or closed the dialog
+      exit 0
     fi
+  else
+    # Running in system terminal
+    read -e -p "${PURPLE}pre-push: ${YELLOW}Do you want to run analyzer? [y/N] ${RESET}" answer < /dev/tty
+    case ${answer:0:1} in
+        y|Y ) 
+            echo "${PURPLE}pre-push: ${GREEN}Continuing...${RESET}";;
+        * ) echo "${PURPLE}pre-push: ${GREEN}Continuing without analyse and test!${RESET}"; exit 0;;
+    esac
+  fi
 }
 
 # Run Flutter tests
