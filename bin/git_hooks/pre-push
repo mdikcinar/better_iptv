@@ -57,8 +57,8 @@ runUnusedCheck() {
 }
 
 # Execution starts here
-#askBeforeRunAnalysesAndTest
-#runFlutterTests
+askBeforeRunAnalysesAndTest
+runFlutterTests
 #runDartAnalyzer
 #runUnusedCheck "Files"
 #runUnusedCheck "Codes"
