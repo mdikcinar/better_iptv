@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Load shared configurations and utility functions
+source bin/scripts/common.sh
+
+# Prompt user to decide if analyzer and tests should run
+askBeforeRunAnalysesAndTest() {
+    local message="Do you want to run analyzer and tests?"
+    local title="Git Hooks"
+    local button_yes="Yes"
+    local button_no="No"
+
+    # Use the generic askBeforeContinue function from common.sh
+    if ! askBeforeContinue "$message" "$title" "$button_yes" "$button_no"; then
+        echo "${PURPLE}pre-push:${RESET} ${GREEN}Skipping analyzer and tests as per user choice.${RESET}"
+        exit 0
+    fi
+}
+
+# Run Flutter tests
+runFlutterTests() {
+    echo "${PURPLE}pre-push: ${YELLOW}Running Flutter Tests...${RESET}"
+    melos run test
+    if [ $? -ne 0 ]; then
+        echo "${PURPLE}pre-push: ${RED}Some tests failed.${RESET}"
+        exit 1
+    else
+        echo "${PURPLE}pre-push: ${GREEN}All tests passed!${RESET}"
+    fi
+}
+
+# Run Dart analyzer
+runDartAnalyzer() {
+    echo "${PURPLE}pre-push: ${YELLOW}Running Dart Analyzer...${RESET}"
+    output_analyze=$(flutter analyze 2>&1)
+    echo "$output_analyze"
+    if [ $? -ne 0 ]; then
+        echo "${PURPLE}pre-push: ${RED}Some analysis issues found.${RESET}"
+        askBeforeContinue "Analyzer found issues. Do you want to continue?" "Git Hooks" "Yes" "No"
+    else
+        echo "${PURPLE}pre-push: ${GREEN}Dart analyzer passed! No issues found!${RESET}"
+    fi
+}
+
+# Check for unused files and codes
+runUnusedCheck() {
+    local check_type=$1
+    echo "${PURPLE}pre-push: ${YELLOW}Checking unused $check_type...${RESET}"
+    output=$(dart run dart_code_metrics:metrics check-unused-${check_type,,} lib 2>&1)
+    echo "$output"
+    if [ $? -ne 0 ]; then
+        echo "${PURPLE}pre-push: ${RED}Some unused $check_type found.${RESET}"
+        askBeforeContinue "Unused $check_type detected. Do you want to continue?" "Git Hooks" "Yes" "No"
+    else
+        echo "${PURPLE}pre-push: ${GREEN}Unused $check_type check passed!${RESET}"
+    fi
+}
+
+# Execution starts here
+#askBeforeRunAnalysesAndTest
+#runFlutterTests
+#runDartAnalyzer
+#runUnusedCheck "Files"
+#runUnusedCheck "Codes"
