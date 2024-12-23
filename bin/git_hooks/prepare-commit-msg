@@ -13,11 +13,17 @@ SHA1=$3
 branch_name=`git rev-parse --abbrev-ref HEAD`
 commit_msg=$(cat $COMMIT_MSG_FILE)
 
-# Regex to ensure commit message starts with a valid prefix
-regex_commit_start='^(feat|refactor|fix|docs|release|chore|test|perf|revert|ci|build|Merge): .*'
+# Define the list of valid commit prefixes
+allowed_commit_prefixes=("feat" "refactor" "fix" "docs" "release" "chore" "test" "perf" "revert" "ci" "build" "Merge")
+
+# Dynamically create the regex from the list
+regex_commit_start="^($(IFS=\|; echo "${allowed_commit_prefixes[*]}")): .*"
+
+# Validation logic
 if [[ ! $commit_msg =~ $regex_commit_start ]]; then
+  errorMsg="${PURPLE}prepare-commit-msg:${YELLOW} Your commit message must start with one of these prefixes: ${GREEN}$(IFS=,; echo "'${allowed_commit_prefixes[*]}', feat: example")${RESET}"
+  print_error_message "$errorMsg"
   echo "${PURPLE}prepare-commit-msg:${YELLOW} Current commit message: ${GREEN}$commit_msg${RESET}"
-  echo "${PURPLE}prepare-commit-msg:${YELLOW} Your commit message must start with one of these prefixes: ${GREEN}'feat:' 'refactor:' 'fix:' 'docs:' 'release:' 'chore:' 'test:' 'perf:' 'revert:' 'ci:' 'build:'${RESET}"
   exit 1
 fi
 

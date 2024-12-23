@@ -20,7 +20,7 @@ project_dir="$(git rev-parse --show-toplevel)"
 export PATH="$PATH:$project_dir/.fvm/flutter_sdk/bin"
 
 # Team-specific prefix (e.g., JIRA project key)
-teams_prefix='TEAM'  # Replace TEAM with your team's specific prefix, such as ABC, XYZ, AMT
+team_prefix='TEAM'  # Replace TEAM with your team's specific prefix, such as ABC, XYZ, AMT
 
 # Function: Ask user if they want to continue despite errors
 # Provides a prompt to continue or abort depending on the environment
@@ -44,6 +44,24 @@ askBeforeContinue() {
                exit 1;;
        esac
    fi
+}
+
+# Function: Remove ANSI codes from a string
+remove_ansi_codes() {
+    local input="$1"
+    # ANSI escape codes for colors and formatting
+    echo "$input" | sed -E 's/\x1B\[[0-9;]*[mK]//g'
+}
+
+# Function to print error message based on SHLVL
+print_error_message() {
+    error_message="$1"
+    if [[ "$SHLVL" -eq 1 ]]; then
+        clean_message=$(remove_ansi_codes "$error_message")
+        echo "$clean_message"
+    else
+        echo "$error_message"
+    fi
 }
 
 # Function: Remove old coverage files
