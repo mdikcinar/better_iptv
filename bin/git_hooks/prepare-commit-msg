@@ -36,7 +36,8 @@ if [[ ! $commit_msg =~ $regex_commit_end ]]; then
     if [ -n "$issue" ]; then
         echo "$commit_msg ($issue)" > $COMMIT_MSG_FILE
     else
-        echo "${RED}prepare-commit-msg:${YELLOW} Your commit message must end with an issue key in parentheses, e.g., ${GREEN}'feat: example commit (${team_prefix}-123)'${RESET}"
+        errorMsg="${PURPLE}prepare-commit-msg:${YELLOW} Your commit message must end with an issue key in parentheses, e.g., ${GREEN}'feat: example commit (${team_prefix}-123)'${RESET}"
+        print_error_message "$errorMsg"
         exit 1
     fi
 fi
