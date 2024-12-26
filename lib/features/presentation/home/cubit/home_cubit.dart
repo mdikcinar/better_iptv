@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:betteriptv/core/models/nullable.dart';
 import 'package:betteriptv/di_manager.dart';
 import 'package:betteriptv/features/data/dtos/content/channel_group.dart';
@@ -48,6 +50,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void selectChannelGroup(ChannelGroup? channelGroup) {
-    emit(state.copyWith(selectedChannelGroup: Nullable(channelGroup)));
+    emit(state.copyWith(status: HomeStatus.loading));
+    emit(state.copyWith(selectedChannelGroup: Nullable(channelGroup), status: HomeStatus.loaded));
   }
 }

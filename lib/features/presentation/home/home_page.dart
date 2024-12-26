@@ -32,12 +32,12 @@ class HomePage extends StatelessWidget {
             builder: (context, state) {
               return CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
-                  leading: state.selectedChannelGroup.value != null
-                      ? IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () => context.read<HomeCubit>().selectChannelGroup(null),
-                        )
-                      : null,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => state.selectedChannelGroup.value != null
+                        ? context.read<HomeCubit>().selectChannelGroup(null)
+                        : Navigator.of(context).pop(),
+                  ),
                   //title: const Text('Better IpTV'),
                 ),
                 child: Builder(
