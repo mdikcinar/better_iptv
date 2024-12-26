@@ -7,16 +7,16 @@ part 'playlist.g.dart';
 @JsonSerializable()
 class Playlist extends Equatable {
   const Playlist({
+    required this.name,
     required this.url,
-    this.name,
-    this.entries,
+    this.entries = const [],
   });
 
   factory Playlist.fromJson(Map<String, dynamic> json) => _$PlaylistFromJson(json);
 
-  final String? name;
+  final String name;
   final String url;
-  final List<ChannelGroup>? entries;
+  final List<ChannelGroup> entries;
 
   Map<String, dynamic> toJson() => _$PlaylistToJson(this);
 
@@ -33,9 +33,5 @@ class Playlist extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        name,
-        url,
-        entries,
-      ];
+  List<Object?> get props => [name, url, entries];
 }

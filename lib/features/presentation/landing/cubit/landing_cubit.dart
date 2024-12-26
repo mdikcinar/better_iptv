@@ -49,4 +49,13 @@ class LandingCubit extends BaseCubit<LandingState> {
       await _savePlaylists(newPlaylists);
     }
   }
+
+  Future<void> deletePlaylist(Playlist playlist) async {
+    final currentState = state;
+    if (currentState is LandingSuccess) {
+      final newPlaylists = currentState.playlists.where((e) => e.url != playlist.url).toList();
+      emit(LandingSuccess(newPlaylists));
+      await _savePlaylists(newPlaylists);
+    }
+  }
 }
