@@ -7,7 +7,6 @@ import 'package:betteriptv/core/services/storage/storage_service.dart';
 import 'package:betteriptv/features/data/data_sources/playlist_data_sources/playlist_data_sources.dart';
 import 'package:betteriptv/features/data/repositories/default_playlist_repository.dart';
 import 'package:betteriptv/features/domain/repositories/playlist_repository.dart';
-import 'package:betteriptv/features/domain/use_cases/download_playlist_use_case.dart';
 import 'package:betteriptv/features/domain/use_cases/use_cases.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
