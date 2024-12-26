@@ -1,0 +1,230 @@
+Act as an expert on Flutter and Dart, utilizing the newest features and best practices to provide accurate and up-to-date answers.
+
+Follow this Flutter and Dart Development Guidelines
+
+## **Code Style**
+
+- Write concise, technical Dart code with accurate examples.
+- Use functional programming patterns where possible; avoid unnecessary object-oriented complexity.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+
+## **Structure**
+
+- Use Clean Architecture Folder first approach, Here is my preference;
+    lib/
+    ├── constants/
+    ├── core/
+    │   ├── exceptions/
+    │   │   ├── exception.dart
+    │   │   ├── another_exception.dart
+    │   ├── failures/
+    │   │   ├── failure.dart
+    │   │   ├── another_failure.dart
+    │   ├── utils/
+    │   │   ├── extensions/
+    │   │   │   ├── example_extension.dart
+    │   │   ├── helpers/
+    │   │   │   ├── example_helper.dart
+    │   ├── services/
+    │   │   ├── network/
+    │   │   │    ├── network_service.dart
+    │   │   │    ├── dio_network_service.dart (This is implementation of network service)
+    │   │   ├── other_service/
+    │   ├── widgets/
+    ├── data/
+    │   ├── data_sources/
+    │   │   ├── feature_name/
+    │   │   │   ├── remote_data_source.dart
+    │   │   │   ├── local_data_source.dart
+    │   │   ├── another_feature/
+    │   │       ├── remote_data_source.dart
+    │   │       ├── local_data_source.dart
+    │   ├── dtos/
+    │   │   ├── feature_name_dto.dart
+    │   │   ├── another_feature_dto.dart
+    │   ├── repositories/
+    │       ├── feature_name_repository_impl.dart
+    │       ├── another_feature_repository_impl.dart
+    ├── domain/
+    │   ├── entities/
+    │   │   ├── entity_name.dart
+    │   │   ├── another_entity.dart
+    │   ├── repositories/
+    │   │   ├── feature_name_repository.dart
+    │   │   ├── another_feature_repository.dart
+    │   ├── use_cases/
+    │       ├── get_feature_name_use_case.dart
+    │       ├── get_another_feature_use_case.dart
+    ├── presentation/
+    │   ├── feature_name/
+    │   │   ├── cubit/
+    │   │   │   ├── feature_name_cubit.dart
+    │   │   │   ├── feature_name_state.dart
+    │   │   ├── widgets/
+    │   │   │   ├── feature_name_widget.dart
+    │   │   ├── feature_name_page.dart
+    │   │   ├── feature_name_view.dart
+    │   ├── another_feature/
+    │       ├── cubit/
+    │       │   ├── another_feature_cubit.dart
+    │       │   ├── another_feature_state.dart
+    │       ├── widgets/
+    │       │   ├── another_feature_widget.dart
+    │       ├── another_feature_page.dart
+    │       ├── another_feature_view.dart
+    ├── routes/
+    ├── injection.dart
+
+- Data Layer
+  - The DataSource (e.g., RemoteDataSource) always returns raw DTOs (Data Transfer Objects).
+  - Use classes or objects that represent the exact structure of the data received from the external source (e.g., an API).
+  - Handle network errors and exceptions within the DataSource and throw Failure objects when necessary.
+- Domain Layer
+  - The Repository receives data from the DataSource and maps DTOs into domain entities or returns a DataResult.
+  - Use DataResult.success to wrap domain entities for successful operations.
+  - Use DataResult.failure to wrap Failure for error handling.
+  - Avoid exposing DTOs directly outside of the Data layer.
+- Failure Handling
+  - Define a Failure class to standardize error representation.
+  - Map exceptions from the DataSource to appropriate Failure objects in the Repository.,
+
+## **Naming Conventions**
+
+- Use `snake_case` for files and directories (e.g., `components/auth_wizard`).
+- Favor using `part` and `part of` files for widget grouping.
+- Use PascalCase for class and widget names.
+
+## **Dart and Flutter Usage**
+
+- Use Dart for all code; prefer `class` and `@immutable` annotations.
+- Use stateless widgets as much as possible; only use stateful widgets for local UI state.
+- Utilize `extension` for improving code reusability and readability.
+
+## **Syntax and Formatting**
+
+- Use **pure functions** for business logic and utility helpers.
+- Avoid unnecessary curly braces in simple statements; use concise syntax where applicable.
+- Follow **very_good_analysis** and **dart_code_metrics** lint rules. Here is my analysis_options.yaml file;
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  plugins:
+    - dart_code_linter
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.config.dart"
+    - "**/firebase_options.dart"
+
+linter:
+  rules:
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false
+    one_member_abstracts: false
+    flutter_style_todos: false
+
+dart_code_linter:
+  extends:
+    - package:dart_code_metrics_presets/all.yaml
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 6
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
+  rules-exclude:
+    - test/**
+  rules:
+    - avoid-collection-methods-with-unrelated-types:
+        strict: false
+    - avoid-non-ascii-symbols: false
+    - avoid-non-null-assertion: false
+    - avoid-passing-async-when-sync-expected: false
+    - avoid-ignoring-return-values: false
+    - avoid-late-keyword: false
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 2
+    - avoid-returning-widgets:
+        ignored-names:
+          - testFunction
+        ignored-annotations:
+          - allowedAnnotation
+    - arguments-ordering: false
+    - format-comment:
+        only-doc-comments: true
+    - no-equal-arguments: false
+    - no-magic-number: false
+    - newline-before-return: false
+    - missing-test-assertion:
+        include-assertions:
+          - verify
+          - verifyNever
+    - prefer-match-file-name:
+        exclude:
+          - test/**
+    - prefer-extracting-callbacks:
+        ignored-named-arguments:
+          - buildWhen
+          - listener
+        allowed-line-count: 15
+    - prefer-correct-identifier-length:
+        exceptions: [ 'id' , 'iv']
+        max-identifier-length: 35
+        min-identifier-length: 3
+    - prefer-correct-type-name:
+        min-length: 3
+        max-length: 40
+    - prefer-static-class:
+        ignore-names:
+          - testFunction
+
+## **UI and Styling**
+
+- Use **Cupertino Design** and custom themes for UI consistency.
+- Favor using `Widget` composition for building reusable and declarative UI components.
+- Use responsive layouts:
+  - Leverage `LayoutBuilder`, `MediaQuery`, or `flutter_screenutil` for responsive designs.
+  - Use a **mobile-first approach** by designing for smaller screens first.
+- Optimize asset usage:
+  - Use vector assets (`.svg`) or WebP for images.
+  - Use `CachedNetworkImage` for lazy loading and caching images.
+
+## **Performance Optimization**
+
+- Optimize rendering with:
+  - `const` constructors for immutable widgets.
+  - Using `RepaintBoundary` for isolating complex widgets.
+  - Avoid unnecessary rebuilds with `Provider` selectors or `BlocListener`.
+- Optimize animations:
+  - Use `AnimatedBuilder` or `ImplicitlyAnimatedWidget` for efficient animations.
+
+### **State Management**
+
+- Use **Cubit** or **Bloc** for reactive state management.
+- Avoid using `setState` for global or shared state.
+
+### **Networking**
+
+- Follow a **Clean Architecture** approach:
+  - Data → Domain → Presentation layers.
+  - Use `Dio` for HTTP requests and error handling.
+  - Implement `Repository` patterns for abstracting data sources.
+
+### **Routing**
+
+- Use **GoRouter** for declarative and dynamic navigation.
+- Separate routes into a centralized configuration file.
+
+### **Testing**
+
+- Write unit tests for business logic and widget tests for UI.
+- Use `golden tests` for visual consistency with **alchemist** package.
+
+## **Web and Performance Optimization**
+
+- For Flutter web:
+  - Optimize Web Vitals (LCP, CLS, FID) with responsive layouts.
+  - Use deferred loading for large scripts or components (`flutter_web_plugins`).
+- Use `flutter build web --release` with specific build optimizations (e.g., `dart2js` flags).

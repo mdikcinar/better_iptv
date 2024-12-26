@@ -1,3 +1,4 @@
+import 'package:betteriptv/core/widgets/empty_state_widget.dart';
 import 'package:betteriptv/di_manager.dart';
 import 'package:betteriptv/features/data/dtos/playlist.dart';
 import 'package:betteriptv/features/presentation/landing/cubit/landing_cubit.dart';
@@ -39,6 +40,7 @@ class _LandingPageState extends State<LandingPage> {
             navigationBar: CupertinoNavigationBar(
               middle: const Text('BetterIPTV'),
               trailing: CupertinoButton(
+                padding: EdgeInsets.zero,
                 onPressed: () => onTapAddPlaylist(context),
                 child: const Text('Add playlist'),
               ),
@@ -47,16 +49,26 @@ class _LandingPageState extends State<LandingPage> {
               builder: (context, state) {
                 switch (state) {
                   case LandingInitial():
-                    return const Center(child: Text('No playlists'));
+                    return const EmptyStateWidget(
+                      message: 'No playlists added yet',
+                      icon: CupertinoIcons.play,
+                    );
                   case LandingLoading():
                     return const Center(child: CircularProgressIndicator());
                   case LandingFailure(failure: final failure):
                     return Center(child: Text(failure.message));
                   case LandingSuccess(playlists: final playlists):
+                    if (playlists.isEmpty) {
+                      return const EmptyStateWidget(
+                        message: 'No playlists added yet',
+                        icon: CupertinoIcons.play_arrow,
+                      );
+                    }
                     return ListView.builder(
                       itemCount: playlists.length,
                       itemBuilder: (context, index) {
                         final playlist = playlists[index];
+
                         return CupertinoListTile(
                           title: Text(playlist.url),
                           onTap: () => context.go('/home', extra: playlist),
